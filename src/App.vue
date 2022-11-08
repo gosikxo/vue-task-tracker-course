@@ -28,7 +28,7 @@ export default {
     }
   },
   methods: {
-    toggleAddTask() {
+    toggleAddTask () {
       this.showAddTask = !this.showAddTask
     },
     addTask (task) {
@@ -41,29 +41,16 @@ export default {
     },
     toggleReminder (id) {
       this.tasks = this.tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder } : task)
+    },
+    async fetchTasks () {
+      const res = await fetch('http://localhost:5001/tasks');
+      const data = await res.json();
+      console.log(data)
+      return data;
     }
   },
-  created () {
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Doctors Appointment',
-        day: 'March 1st at 2:30pm',
-        reminder: true
-      },
-      {
-        id: 2,
-        text: 'Meeting at school',
-        day: 'March 3rd at 4:35pm',
-        reminder: true
-      },
-      {
-        id: 3,
-        text: 'Food Shopping',
-        day: 'March 3rd at 8:35pm',
-        reminder: false
-      }
-    ]
+  async created () {
+    this.tasks = await this.fetchTasks()
   }
 }
 </script>
